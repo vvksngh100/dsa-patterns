@@ -1,40 +1,11 @@
+### 500. Keyboard Row (Easy)
 
-### `problems/500-keyboard-row.md`
+**Pattern:** HashSet Lookup
 
-```markdown
-# 500. Keyboard Row
+**Trigger:** "Belongs to a group/row" — every character must come from the same fixed set
 
-**Pattern:** [HashSet Lookup](../patterns/hashset-lookup.md)
-**Difficulty:** Easy
-**Link:** https://leetcode.com/problems/keyboard-row/
+**Key insight:** Classify the word by its FIRST char into one row's Set, then verify all other chars are in that same Set
 
-## Problem (short)
-Return all words that can be typed using letters from only one row of an
-American keyboard.
+**Complexity:** O(n × L) time, O(n) space
 
-## Approach
-Pre-build a Set per row. Classify the word by its first character, then
-verify every other character belongs to the same Set.
-
-## Solution
-```js
-var findWords = function(words) {
-    const keyboardRows = [
-        new Set('qwertyuiop'),
-        new Set('asdfghjkl'),
-        new Set('zxcvbnm')
-    ];
-
-    const res = [];
-    for (const word of words) {
-        const lower = word.toLowerCase();
-        const keyRow = keyboardRows.find(row => row.has(lower[0]));
-
-        let flag = true;
-        for (let i = 1; i < lower.length; i++) {
-            if (!keyRow.has(lower[i])) { flag = false; break; }
-        }
-        if (flag) res.push(word);
-    }
-    return res;
-};
+**Trap:** filter(...)[0] instead of find(); missing break after failure; toLowerCase() inside the loop
